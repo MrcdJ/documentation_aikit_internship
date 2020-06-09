@@ -13,7 +13,7 @@ A client could be realised for a better visualization. There are few ways to ach
 # Presentation
 
 We present here the second solution with an API.
-Therefore, a RESTFULL API with flask in Python could be created as following architecture to simplify the usage of aikit :
+Therefore, a RESTful API with flask in Python could be created as following architecture to simplify the usage of aikit :
 
 ![Fig. 1: Architecture](./Images/Architecture.png)
 
@@ -22,7 +22,7 @@ Therefore, a RESTFULL API with flask in Python could be created as following arc
 
 ### Flask API
 
-Flask provides RESTFULL API in Python. Flask is easy to get started and requires only mainly a reliable install. Because Flask is in Python, we could launch other scripts in Python as aikit.
+Flask provides RESTful API in Python. Flask is easy to get started and requires only mainly a reliable install. Because Flask is in Python, we could launch other scripts in Python as aikit.
 (https://flask.palletsprojects.com/en/1.1.x/)
 
 
