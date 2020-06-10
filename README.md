@@ -98,3 +98,25 @@ The client side could offer few services as:
 - to create a dataset
 - to get result of aikit run
 - to subscribe a token to have notifications and follow the progress of aikit run.
+
+
+# 1st Step
+
+The first step is to display the results of the automl.
+The format of the results isn't changed and the automl run has to be made beforehand.
+
+## Flask API
+
+Input: the result's folder's name.
+Output: the results of the automl researches in JSON.
+
+The API will aggregate the files in a JSON to organize the results.
+
+## Front-end with Vue.js
+
+The choice of the technologie was between Vue and React.
+Because Vue.js is based on HTML, it seems that it will be easier to integrate our first screen in another future big project.
+
+
+
+
