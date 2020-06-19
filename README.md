@@ -110,7 +110,13 @@ The format of the results isn't changed and the automl run has to be made before
 Input: the result's folder's name.
 Output: the results of the automl researches in JSON.
 
-The API will aggregate the files in a JSON to organize the results.
+The API will display the rows of result.xlsx to organize the results.
+
+When the user wants to run aikit:
+- he receives a token UUID wich is needed to request the result,
+- the results are stored in a new directory, named as UUID.
+
+![Fig. 2: API architecture](./Images/API_Architecture.png)
 
 ## Front-end with Vue.js
 
