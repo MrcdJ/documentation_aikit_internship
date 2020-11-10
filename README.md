@@ -40,7 +40,7 @@ pip install -r requirements.txt
 Make aikit-viz depending on aikit projet.
 With PyCharm IDE, you can open both projects in the same windows. Open the settings and select dependencies as shown bellow.
 
-![Fig. 1: Add aikit dependency with PyCharm](./Images/settings.png)
+![Fig. 1: Add aikit dependency with PyCharm](./Images/settings.jpg)
 
 
 #### Launch server side
@@ -69,35 +69,35 @@ We have implemented the following JSON format:
 
 ```json
 {
-    'results': dict,
-    'pagination': {
-        'activePage': int,
-        'totalPages': int,
-        'pages': list,
-        'items': {
-            'itemsPerPage': int,
-            'totalItems': int,
-            'start': int,
-            'end': int,
+    "results": dict,
+    "pagination": {
+        "activePage": int,
+        "totalPages": int,
+        "pages": list,
+        "items": {
+            "itemsPerPage": int,
+            "totalItems": int,
+            "start": int,
+            "end": int,
         }
     },
-    'analysis': dict,
-    'info': {
-        'models': list,
-        'job_types':
+    "analysis": dict,
+    "info": {
+        "models": list,
+        "job_types":
         {
-            'models': list,
-            'job_types': [
-                'default',
-                'block_search',
-                'exploration',
-                'guided',
+            "models": list,
+            "job_types": [
+                "default",
+                "block_search",
+                "exploration",
+                "guided",
             ],
-            'metrics_fields': [
-                'accuracy',
-                'avg_roc_auc',
-                'f1_macro',
-                'log_loss_patched',
+            "metrics_fields": [
+                "accuracy",
+                "avg_roc_auc",
+                "f1_macro",
+                "log_loss_patched",
             ],
         }
     }
@@ -108,14 +108,14 @@ We have implemented the following JSON format:
 Created in the component Filters
 
 ```json
-'filters': {
-    'models': list,
-    'job_types': list,
-    'metrics': {
-        'accuracy': float,
-        'avg_roc_auc': float,
-        'f1_macro': float,
-        'log_loss_patched': float,
+"filters": {
+    "models": list,
+    "job_types": list,
+    "metrics": {
+        "accuracy": float,
+        "avg_roc_auc": float,
+        "f1_macro": float,
+        "log_loss_patched": float,
     }
 }
 ```
@@ -127,7 +127,7 @@ We worked on an optimal architecture in design. The architecture actually achiev
 The designed architecture we studied and proposed is optimal to create the best possible user experience. Therefore, we choose to develop a thin-client web. The display of a GUI has to be fast to install and should not require any computing power. The whole project is designed for this purpose.
 This is why we eventually proposed that aikit would be embedded on a remote server accessible from an RESTful API, which can be used by the client according to the following diagram:
  
-![Fig. 2: Designed Architecture](./Images/designed_architecture.png)
+![Fig. 2: Designed Architecture](./Images/designed_architecture.jpg)
 
  ### Designed Architecture
 The Vue.js client will be able to communicate via the HTTP protocol with the server. The server will interpret the various requests via the API which itself will delegate the tasks to different services. Indeed, when a user wishes to launch the aikit automl, the client sends an authenticated request to the server, which responds with an access token. An instance of the aikit service -corresponding to the previously generated token - is then started. Simultaneously, an instance of a spy service, which is responsible for regularly retrieving the results, is launched. When the user wishes to retrieve the results of the analysis, the client sends an authenticated request to the server with the access token, the server therefore retrieves the results linked to the corresponding instance and sends them back in JSON format. The client can then display the results in a dedicated GUI.
@@ -135,7 +135,7 @@ The Vue.js client will be able to communicate via the HTTP protocol with the ser
 ### Effective Architecture
 In order to meet the objective of creating a GUI, we have adapted this architecture to our solution throughout the internship. The architecture actually produced is articulated for the proper functioning of the client component as shown in figure 3 bellow:
  
-![Fig. 3: Effective Architecture](./Images/effective_architecture.png)
+![Fig. 3: Effective Architecture](./Images/effective_architecture.jpg)
 
 #### Future development for the API
 It may be interesting to carry out these points later as initially proposed:
