@@ -1,128 +1,152 @@
-# documentation_aikit_internship
-Documentation to improve aikit
-(https://github.com/societe-generale/aikit)
+# README
+
+This project is the development of a client that provides a GUI and API to visualize the automl results from aikit framework (https://sgithub.fr.world.socgen/sg-ai/aikit).
 
 
-# Introduction
-Currently, aikit proposes an Excel file to display automl results.
-A client could be realised for a better visualization. There are few ways to achieve this.
-- The first and easiest one would be to develop a client that embbed aikit. This solution requieres that the hosting machine needs high performances.
-- Another solution would be to develop a client that reaches aikit through an API. This implies high performances on server side.
+## Global
+This project has been developed in order to improve data visualization of aikit results and aikit use. The goal is to propose the best possible user experience.
+
+## Launch
+The current solution supposes we already launch aikit run and we have a results folder.
+
+### First installation
+
+1. Copy dataset to the correct local folder
+2. Install aikit and launch automl
+3. Install aikit-viz
+4. Launch aikit-viz server side
+5. Launch aikit-viz client side
 
 
-# Presentation
+#### Copy dataset to the correct local folder
+Copy the dataset from folder:
+L:/datasets/public/datasets/
+Paste in:
+C:/Users/<your_id>/.aikit/datasets/titanic
 
-We present here the second solution with an API.
-Therefore, a RESTful API with flask in Python could be created as following architecture to simplify the usage of aikit :
+#### Install aikit and launch automl
+Follow [aikit documentation](https://aikit.readthedocs.io/en/latest/installation.html)
 
-![Fig. 1: Architecture](./Images/Architecture.png)
+#### Install aikit-viz
+Clone aikit-viz repository
+
+Install requirements
+It is possible that all the dependencies aren’t in the requirements file because we didn’t have the time at the end of the internship to try the requirements.
+```bash
+cd path/to/aikit-viz
+pip install -r requirements.txt
+```
+
+Make aikit-viz depending on aikit projet.
+With PyCharm IDE, you can open both projects in the same windows. Open the settings and select dependencies as shown bellow.
+
+![Fig. 1: Add aikit dependency with PyCharm](./Images/settings.png)
 
 
-## Server Side
+#### Launch server side
+```bash
+cd path/to/aikit-viz
+python ./backend/api/app.py
+```
+You can open swagger to check that server is well running on https://localhost:5000
 
-### Flask API
+#### Launch aikit-viz client side
+Be sure that npm is install. Then, you can run the client side.
+```bash
+cd path/to/aikit-viz/
+npm run serve
+```
 
-Flask provides RESTful API in Python. Flask is easy to get started and requires only mainly a reliable install. Because Flask is in Python, we could launch other scripts in Python as aikit.
-(https://flask.palletsprojects.com/en/1.1.x/)
+Be sure that the server side is running to display the results.
+You can open the GUI on https://localhost:8080
 
+### JSON transmission formats
+The configuration of the software bricks are important to allow dialogue between them. In addition to the routing seen in part
 
-### Storage
+#### Server -> client
+To be able to develop a web application from data retrieved from an API, it is necessary to know the format of the data transmitted by this API in order to be able to use them.
+We have implemented the following JSON format:
 
-Aikit results are in 2 file formats:
-- JSON for the model which fits the problem
-- CSV for the score obtained by the model
-
-To store aikit results, different technologies could be relevant. I present here two possible choices: either MongoDB or Microsoft SQL Server.
-
-#### MongoDB
-
-MongoDB is a document-oriented data store. It uses JSON-like documents with optional schemas. Data is stored in a Binary Object Notation (BSON) storage format.
-(https://www.mongodb.com)
-
-It supports multi-languages and especially Python, the language used for this project. PyMongo is a commonly used client for interfacing with one or more MongoDB instances through Python code.
-
-Also, MongoDB could be a good start for large-scale deployments. MongoDB is designed to efficiently handle Big Data. MongoDB can run over multiple servers, balancing the load or duplicating data to keep the system up and running in case of hardware failure.
-Furthermore, MongoDB is optimised with some distributed cluster-computing services as Spark.
-
-But, the file storage is not well supported by MongoDB. So, to store the aikit results which are CSV format, we should use an auxiliary JSON model such as:
-
-```JSON
+```json
 {
-	"id": "9cbb243a-6400-46ba-add0-524d60065c1f",
-	"executionTime": 1.345,
-	"date": "2020-06-05",
-	"aikit_model": { "..."
-	},
-	"result": {
-		"column": ["test_accuracy", "test_log_loss_patched", "test_avg_roc_auc", "test_f1_macro", "train_accuracy", "train_log_loss_patched", "train_avg_roc_auc", "train_f1_macro", "fit_time", "score_time", "n_test_samples", "fold_nb"],
-		"row": [
-		{
-			"values": [0.9904761904761905,	-0.45931387893427056,	0.9984756097560976,	0.9899511915015791,	0.9745493107104984,	-0.4667526620337411,	0.9938859144689007,	0.9731810209982462,	0.045392751693725586,	0.03303408622741699,	105,	0]
-      
-		},
-		{
-			"values": [0.9619047619047619,	-0.47757059197874785,	0.9649390243902439,	0.9592074592074593,	0.9777306468716861,	-0.46388441774535133,	0.9953825670660887,	0.9765686287270054,	0.04618477821350098,	0.03585314750671387,	105,	1]
-		}]
-	}
+    'results': dict,
+    'pagination': {
+        'activePage': int,
+        'totalPages': int,
+        'pages': list,
+        'items': {
+            'itemsPerPage': int,
+            'totalItems': int,
+            'start': int,
+            'end': int,
+        }
+    },
+    'analysis': dict,
+    'info': {
+        'models': list,
+        'job_types':
+        {
+            'models': list,
+            'job_types': [
+                'default',
+                'block_search',
+                'exploration',
+                'guided',
+            ],
+            'metrics_fields': [
+                'accuracy',
+                'avg_roc_auc',
+                'f1_macro',
+                'log_loss_patched',
+            ],
+        }
+    }
 }
 ```
 
-#### Microsoft SQL Server
+#### Client-> server
+Created in the component Filters
 
-An other solution to store the results in CSV format is to use a storage file system as Microsoft SQL Server.
-(https://docs.microsoft.com/sharepoint/administration/sql-server-and-storage)
+```json
+'filters': {
+    'models': list,
+    'job_types': list,
+    'metrics': {
+        'accuracy': float,
+        'avg_roc_auc': float,
+        'f1_macro': float,
+        'log_loss_patched': float,
+    }
+}
+```
 
-Microsoft SQL Server is a relational database management system. If the file size is less than 256 Ko, Microsoft SQL Server stores directly the CSV file as one binary row in the SQL database. Otherwise, the file is stored as a BLOB, which means in a file storage, and referenced in the SQL database. BLOB has fast access to the named file and there is no conversion cost.
+## The architecture of aikit-viz
 
-Microsoft SQL Server is heavier to deploy than MongoDB.
-Hosted on Azure Server this storage system is more efficient.
+We worked on an optimal architecture in design. The architecture actually achieved is the first step in moving towards this studied architecture. We will then use the terms of designed architecture and effective architecture.
 
+The designed architecture we studied and proposed is optimal to create the best possible user experience. Therefore, we choose to develop a thin-client web. The display of a GUI has to be fast to install and should not require any computing power. The whole project is designed for this purpose.
+This is why we eventually proposed that aikit would be embedded on a remote server accessible from an RESTful API, which can be used by the client according to the following diagram:
+ 
+![Fig. 2: Designed Architecture](./Images/designed_architecture.png)
 
-### Storage Service
+ ### Designed Architecture
+The Vue.js client will be able to communicate via the HTTP protocol with the server. The server will interpret the various requests via the API which itself will delegate the tasks to different services. Indeed, when a user wishes to launch the aikit automl, the client sends an authenticated request to the server, which responds with an access token. An instance of the aikit service -corresponding to the previously generated token - is then started. Simultaneously, an instance of a spy service, which is responsible for regularly retrieving the results, is launched. When the user wishes to retrieve the results of the analysis, the client sends an authenticated request to the server with the access token, the server therefore retrieves the results linked to the corresponding instance and sends them back in JSON format. The client can then display the results in a dedicated GUI.
 
-The storage service is the interface of the database.
+### Effective Architecture
+In order to meet the objective of creating a GUI, we have adapted this architecture to our solution throughout the internship. The architecture actually produced is articulated for the proper functioning of the client component as shown in figure 3 bellow:
+ 
+![Fig. 3: Effective Architecture](./Images/effective_architecture.png)
 
+#### Future development for the API
+It may be interesting to carry out these points later as initially proposed:
+token management,
+notification service to communicate new results if aikit is running, 
+a database management system.
+This is broadly possible with the current solution since it was designed with the aim of easily adding modules and functionalities.
 
-### Notification Service
+#### The web thin-client
+The client is organized in composants as shown in the figure 4 bellow:
 
-A notification service could be develop in order to inform the client of progress of the aikit run.
-
-It could be possible to handle the STOP conditions:
-- time condition
-- score condition
-
-
-## Client Side
-
-The client side could offer few services as:
-- to create a dataset
-- to get result of aikit run
-- to subscribe a token to have notifications and follow the progress of aikit run.
-
-
-# 1st Step
-
-The first step is to display the results of the automl.
-The format of the results isn't changed and the automl run has to be made beforehand.
-
-## Flask API
-
-Input: the result's folder's name.
-Output: the results of the automl researches in JSON.
-
-The API will display the rows of result.xlsx to organize the results.
-
-When the user wants to run aikit:
-- he receives a token UUID wich is needed to request the result,
-- the results are stored in a new directory, named as UUID.
-
-![Fig. 2: API architecture](./Images/API_Architecture.png)
-
-## Front-end with Vue.js
-
-The choice of the technologie was between Vue and React.
-Because Vue.js is based on HTML, it seems that it will be easier to integrate our first screen in another future big project.
-
-
+![Fig. 4: Client architecture in composants](./Images/client_architecture.png)
 
 
