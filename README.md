@@ -40,7 +40,7 @@ pip install -r requirements.txt
 Make aikit-viz depending on aikit projet.
 With PyCharm IDE, you can open both projects in the same windows. Open the settings and select dependencies as shown bellow.
 
-![Fig. 1: Add aikit dependency with PyCharm](./Images/settings.jpg)
+![Fig. 1: Add aikit dependency with PyCharm](./Images/settings.JPG)
 
 
 #### Launch server side
@@ -127,7 +127,7 @@ We worked on an optimal architecture in design. The architecture actually achiev
 The designed architecture we studied and proposed is optimal to create the best possible user experience. Therefore, we choose to develop a thin-client web. The display of a GUI has to be fast to install and should not require any computing power. The whole project is designed for this purpose.
 This is why we eventually proposed that aikit would be embedded on a remote server accessible from an RESTful API, which can be used by the client according to the following diagram:
  
-![Fig. 2: Designed Architecture](./Images/designed_architecture.jpg)
+![Fig. 2: Designed Architecture](./Images/designed_architecture.JPG)
 
  ### Designed Architecture
 The Vue.js client will be able to communicate via the HTTP protocol with the server. The server will interpret the various requests via the API which itself will delegate the tasks to different services. Indeed, when a user wishes to launch the aikit automl, the client sends an authenticated request to the server, which responds with an access token. An instance of the aikit service -corresponding to the previously generated token - is then started. Simultaneously, an instance of a spy service, which is responsible for regularly retrieving the results, is launched. When the user wishes to retrieve the results of the analysis, the client sends an authenticated request to the server with the access token, the server therefore retrieves the results linked to the corresponding instance and sends them back in JSON format. The client can then display the results in a dedicated GUI.
@@ -135,7 +135,7 @@ The Vue.js client will be able to communicate via the HTTP protocol with the ser
 ### Effective Architecture
 In order to meet the objective of creating a GUI, we have adapted this architecture to our solution throughout the internship. The architecture actually produced is articulated for the proper functioning of the client component as shown in figure 3 bellow:
  
-![Fig. 3: Effective Architecture](./Images/effective_architecture.jpg)
+![Fig. 3: Effective Architecture](./Images/effective_architecture.JPG)
 
 #### Future development for the API
 It may be interesting to carry out these points later as initially proposed:
