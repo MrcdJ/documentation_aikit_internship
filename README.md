@@ -1,6 +1,6 @@
 # README
 
-This project is the development of a client that provides a GUI and API to visualize the automl results from aikit framework (https://sgithub.fr.world.socgen/sg-ai/aikit).
+This project is the development of a client that provides a GUI and API to visualize the automl results from aikit framework (https://github.com/societe-generale/aikit).
 
 
 ## Global
